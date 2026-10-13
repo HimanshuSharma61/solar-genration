@@ -380,9 +380,11 @@ def predict_forecast():
     })
 
 if __name__ == "__main__":
+    host = os.environ.get("HOST", "0.0.0.0")
     port = int(os.environ.get("PORT", 5000))
     print(f"============================================================")
     print(f"  SKIPP'D Solar Forecasting Studio Server Starting")
-    print(f"  Running on: http://127.0.0.1:{port}")
+    print(f"  Running on: http://{host}:{port}")
     print(f"============================================================")
-    app.run(host="127.0.0.1", port=port, debug=False)
+    app.run(host=host, port=port, debug=False)
+
