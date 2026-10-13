@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SKIPP'D | Stanford Solar Forecasting & SUNSET CNN Studio</title>
+  <meta name="description" content="Interactive Deep Learning & Physics-based Solar Forecasting Studio powered by the Stanford University SKIPP'D Dataset and SUNSET CNN.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Ambient background glow effects -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="brand-container">
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24" class="sun-icon">
+          <circle cx="12" cy="12" r="5" fill="currentColor"/>
+          <line x1="12" y1="1" x2="12" y2="4"/>
+          <line x1="12" y1="20" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
+          <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="4" y2="12"/>
+          <line x1="20" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
+          <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-title">SKIPP'D <span class="badge-sub">SUNSET AI</span></h1>
+        <p class="brand-subtitle">Stanford Sky Images & Photovoltaic Power Forecasting Studio</p>
+      </div>
+    </div>
+
+    <!-- Navigation Pills -->
+    <nav class="nav-tabs" id="main-nav-tabs">
+      <button class="nav-tab active" data-tab="nowcast-tab" id="tab-btn-nowcast">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <span>Sky Nowcast</span>
+      </button>
+      <button class="nav-tab" data-tab="forecast-tab" id="tab-btn-forecast">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>15-Min Forecast</span>
+      </button>
+      <button class="nav-tab" data-tab="physics-tab" id="tab-btn-physics">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span>Clear-Sky Physics</span>
+      </button>
+      <button class="nav-tab" data-tab="gallery-tab" id="tab-btn-gallery">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span>Fish-Eye Labs</span>
+      </button>
+      <button class="nav-tab" data-tab="architecture-tab" id="tab-btn-arch">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        <span>CNN Model</span>
+      </button>
+    </nav>
+
+    <!-- System Status Badge -->
+    <div class="system-status">
+      <span class="status-dot"></span>
+      <span id="backend-status-text">TensorFlow 2.4.1 Active</span>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-content">
+    
+    <!-- ========================================== -->
+    <!-- TAB 1: NOWCAST STUDIO                      -->
+    <!-- ========================================== -->
+    <section class="tab-pane active" id="nowcast-tab">
+      <div class="section-intro">
+        <div class="badge-label">CONTEMPORANEOUS PV PREDICTION</div>
+        <h2>SUNSET Solar Nowcasting</h2>
+        <p>Infer contemporaneous photovoltaic power output directly from ground-based 64×64 fish-eye sky images using a Deep Convolutional Neural Network.</p>
+      </div>
+
+      <div class="studio-grid">
+        <!-- Left Column: Inputs & Controls -->
+        <div class="card glass-card">
+          <div class="card-header">
+            <h3><span class="step-num">1</span> Select Sky Condition Preset</h3>
+            <span class="header-note">Or drop a custom image</span>
+          </div>
+
+          <div class="presets-carousel" id="nowcast-presets-list">
+            <!-- Dynamically populated or static presets -->
+          </div>
+
+          <div class="divider"><span>OR CUSTOM SKY CAPTURE</span></div>
+
+          <div class="drop-zone" id="image-drop-zone">
+            <input type="file" id="file-input" accept="image/*" class="file-input-hidden">
+            <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p><strong>Click to browse</strong> or drag & drop a sky photo</p>
+            <span class="file-note">Downsamples automatically to 64×64×3 tensor</span>
+          </div>
+
+          <div class="control-group">
+            <label for="nowcast-time-slider">Time of Day (PST): <span id="nowcast-time-val" class="highlight-val">12:30 PM</span></label>
+            <input type="range" id="nowcast-time-slider" min="360" max="1140" step="15" value="750">
+            <div class="slider-ticks">
+              <span>06:00 AM</span>
+              <span>12:00 PM</span>
+              <span>07:00 PM</span>
+            </div>
+          </div>
+
+          <div class="control-group-row">
+            <div class="control-group">
+              <label for="nowcast-date-input">Observation Date</label>
+              <input type="date" id="nowcast-date-input" value="2019-05-27">
+            </div>
+            <div class="control-group">
+              <label for="nowcast-pv-input">Sensor Reading (kW)</label>
+              <input type="number" id="nowcast-pv-input" value="18.5" min="0" max="30.1" step="0.1">
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-glow" id="btn-run-nowcast">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span>Run SUNSET Nowcast</span>
+          </button>
+        </div>
+
+        <!-- Right Column: Live Prediction Results -->
+        <div class="card glass-card results-card">
+          <div class="card-header">
+            <h3><span class="step-num">2</span> Inference & Physical Alignment</h3>
+            <span class="badge-tag" id="nowcast-latency-badge">~12 ms</span>
+          </div>
+
+          <div class="preview-tensor-row">
+            <div class="preview-box">
+              <div class="preview-label">Fish-Eye Sky Stream</div>
+              <img id="nowcast-preview-img" src="/sample_images/sunny_day_demo_1.gif" alt="Sky Camera View" class="sky-preview-img">
+            </div>
+            <div class="preview-box">
+              <div class="preview-label">64×64 Model Input Tensor</div>
+              <canvas id="tensor-preview-canvas" width="64" height="64" class="tensor-canvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Primary Metric Hero -->
+          <div class="metric-hero-grid">
+            <div class="metric-card primary-metric">
+              <div class="metric-caption">Predicted PV Power Output</div>
+              <div class="metric-value-row">
+                <span class="metric-number" id="nowcast-pred-val">18.42</span>
+                <span class="metric-unit">kW</span>
+              </div>
+              <div class="metric-subtext">Stanford 30.1 kW-DC Solar Array Array</div>
+            </div>
+
+            <div class="metric-card secondary-metric">
+              <div class="metric-caption">Theoretical Clear-Sky Benchmark</div>
+              <div class="metric-value-row">
+                <span class="metric-number" id="nowcast-theo-val">24.03</span>
+                <span class="metric-unit">kW</span>
+              </div>
+              <div class="metric-subtext">Clear-sky Model (P0=1kW/m², A=24.98m²)</div>
+            </div>
+          </div>
+
+          <!-- Clear-Sky Index Gauge & Solar Position -->
+          <div class="gauge-and-physics-row">
+            <div class="gauge-card">
+              <div class="gauge-title">Clear-Sky Index (k<sub>pv</sub>)</div>
+              <div class="circular-gauge-container">
+                <svg class="gauge-svg" viewBox="0 0 100 60">
+                  <path class="gauge-bg" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke-width="8"/>
+                  <path class="gauge-progress" id="clearsky-gauge-bar" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke-width="8" stroke-dasharray="126" stroke-dashoffset="35"/>
+                </svg>
+                <div class="gauge-center-text">
+                  <span class="gauge-val" id="clearsky-index-val">0.77</span>
+                  <span class="gauge-label" id="clearsky-status-label">Partly Shaded</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="physics-details-card">
+              <div class="phys-item">
+                <span class="phys-label">Solar Zenith Angle (χ):</span>
+                <span class="phys-val" id="nowcast-zenith-val">18.06°</span>
+              </div>
+              <div class="phys-item">
+                <span class="phys-label">Solar Azimuth Angle (ξ):</span>
+                <span class="phys-val" id="nowcast-azimuth-val">149.70°</span>
+              </div>
+              <div class="phys-item">
+                <span class="phys-label">Estimated Cloud Transmission:</span>
+                <span class="phys-val" id="nowcast-trans-val">76.8%</span>
+              </div>
+              <div class="phys-item">
+                <span class="phys-label">Model CNN Activations:</span>
+                <span class="phys-val tag-success">13.6M weights active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: 15-MINUTE FORECAST STUDIO           -->
+    <!-- ========================================== -->
+    <section class="tab-pane" id="forecast-tab">
+      <div class="section-intro">
+        <div class="badge-label">MULTIMODAL TEMPORAL FORECAST</div>
+        <h2>SUNSET 15-Minute Ahead Forecast</h2>
+        <p>Combining 16 consecutive 1-minute fish-eye sky frames with historical PV generation history to project solar power output 15 minutes into the future.</p>
+      </div>
+
+      <div class="studio-grid">
+        <!-- Left: Past 16-Minute Power History & Cloud Drift -->
+        <div class="card glass-card">
+          <div class="card-header">
+            <h3><span class="step-num">1</span> Input Past 16 Minutes</h3>
+            <span class="header-note">1-min historical PV samples</span>
+          </div>
+
+          <div class="scenario-buttons">
+            <button class="btn btn-outline active" data-scenario="scattered" id="scen-btn-scattered">Passing Clouds</button>
+            <button class="btn btn-outline" data-scenario="sunny" id="scen-btn-sunny">Stable Sun</button>
+            <button class="btn btn-outline" data-scenario="overcast" id="scen-btn-overcast">Dense Storm</button>
+            <button class="btn btn-outline" data-scenario="evening" id="scen-btn-evening">Late Sunset</button>
+          </div>
+
+          <div class="chart-container-compact">
+            <div class="chart-title">Past 16-Minute Power Profile (t - 15m to t)</div>
+            <svg id="history-chart-svg" class="interactive-chart" viewBox="0 0 400 160"></svg>
+          </div>
+
+          <div class="control-group">
+            <label for="history-baseline-slider">Current PV Output at t: <span id="history-current-val" class="highlight-val">16.4 kW</span></label>
+            <input type="range" id="history-baseline-slider" min="1" max="29" step="0.5" value="16.5">
+          </div>
+
+          <div class="multimodal-tensor-card">
+            <div class="tensor-meta-title">Multimodal Hybrid Tensor Architecture</div>
+            <div class="tensor-meta-grid">
+              <div>
+                <span class="lbl">Image Sequence Input:</span>
+                <span class="val">[16 × 64 × 64 × 3] → [64, 64, 48]</span>
+              </div>
+              <div>
+                <span class="lbl">PV Power Vector:</span>
+                <span class="val">[16, 1] minutely averages</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-glow" id="btn-run-forecast">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <span>Compute 15-Min Forecast</span>
+          </button>
+        </div>
+
+        <!-- Right: 15-Minute Future Trajectory Chart -->
+        <div class="card glass-card results-card">
+          <div class="card-header">
+            <h3><span class="step-num">2</span> Forecasted Trajectory (t to t + 15m)</h3>
+            <span class="badge-tag tag-cyan" id="forecast-trend-tag">Trending Stable</span>
+          </div>
+
+          <!-- Highlight Metric -->
+          <div class="metric-hero-grid">
+            <div class="metric-card primary-metric">
+              <div class="metric-caption">Projected Power at t + 15 min</div>
+              <div class="metric-value-row">
+                <span class="metric-number" id="forecast-15m-val">15.8</span>
+                <span class="metric-unit">kW</span>
+              </div>
+              <div class="metric-subtext">Delta from current: <span id="forecast-delta-val">-0.6 kW</span></div>
+            </div>
+
+            <div class="metric-card secondary-metric">
+              <div class="metric-caption">Clear-Sky Potential at t + 15 min</div>
+              <div class="metric-value-row">
+                <span class="metric-number" id="forecast-theo-val">23.8</span>
+                <span class="metric-unit">kW</span>
+              </div>
+              <div class="metric-subtext">Sun elevation change considered</div>
+            </div>
+          </div>
+
+          <!-- Interactive Trajectory Curve -->
+          <div class="chart-container-large">
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-dot dot-yellow"></span> Historical (t-15m to t)</span>
+              <span class="legend-item"><span class="legend-dot dot-cyan"></span> SUNSET Forecast (t to t+15m)</span>
+              <span class="legend-item"><span class="legend-dot dot-gray"></span> Clear-sky Maximum</span>
+            </div>
+            <svg id="trajectory-chart-svg" class="interactive-chart" viewBox="0 0 600 240"></svg>
+          </div>
+
+          <!-- Minutely breakdown table -->
+          <div class="trajectory-table-container">
+            <div class="table-title">15-Minute Minute-by-Minute Projection</div>
+            <div class="trajectory-pills-row" id="trajectory-pills-row">
+              <!-- Dynamically rendered pills -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: PHYSICAL CLEAR-SKY ENGINE           -->
+    <!-- ========================================== -->
+    <section class="tab-pane" id="physics-tab">
+      <div class="section-intro">
+        <div class="badge-label">ASTRONOMICAL CLEAR-SKY MODEL</div>
+        <h2>Solar Geometry & Theoretical Potential</h2>
+        <p>Implementation of <code>Relative_op_func.py</code> simulating Earth's rotation, panel orientation, solar declination, and theoretical radiation incidence at Stanford University.</p>
+      </div>
+
+      <div class="studio-grid">
+        <!-- Physical Parameters Input & Solar Arc -->
+        <div class="card glass-card">
+          <div class="card-header">
+            <h3><span class="step-num">1</span> Solar Coordinates & Array Specs</h3>
+          </div>
+
+          <div class="array-spec-card">
+            <h4>Stanford University Photovoltaic Array</h4>
+            <div class="spec-grid">
+              <div class="spec-item"><span class="spec-k">Rated Capacity:</span><span class="spec-v">30.1 kW-DC</span></div>
+              <div class="spec-item"><span class="spec-k">Panel Tilt (ε):</span><span class="spec-v">22.5°</span></div>
+              <div class="spec-item"><span class="spec-k">Panel Azimuth (ζ):</span><span class="spec-v">195.0° (S by W)</span></div>
+              <div class="spec-item"><span class="spec-k">Latitude:</span><span class="spec-v">37.4241° N</span></div>
+              <div class="spec-item"><span class="spec-k">Longitude:</span><span class="spec-v">-122.1742° W</span></div>
+              <div class="spec-item"><span class="spec-k">Effective Area:</span><span class="spec-v">24.98 m²</span></div>
+            </div>
+          </div>
+
+          <div class="control-group-row">
+            <div class="control-group">
+              <label for="physics-date-input">Select Date</label>
+              <input type="date" id="physics-date-input" value="2019-06-21">
+            </div>
+            <div class="control-group">
+              <label for="physics-time-input">Select Time (PST)</label>
+              <input type="time" id="physics-time-input" value="12:30">
+            </div>
+          </div>
+
+          <!-- Dynamic Sky Celestial Dome Arc -->
+          <div class="celestial-dome-card">
+            <div class="dome-title">Celestial Sun Position Arc</div>
+            <svg id="celestial-dome-svg" class="dome-svg" viewBox="0 0 300 160">
+              <!-- Sky Arc -->
+              <path d="M 30 140 A 120 120 0 0 1 270 140" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-dasharray="4"/>
+              <line x1="10" y1="140" x2="290" y2="140" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+              <!-- Sun marker -->
+              <circle id="dome-sun-marker" cx="150" cy="40" r="12" fill="#f59e0b" filter="drop-shadow(0 0 8px #f59e0b)"/>
+              <text x="30" y="155" fill="rgba(255,255,255,0.4)" font-size="10">East (06:00)</text>
+              <text x="140" y="155" fill="rgba(255,255,255,0.4)" font-size="10">South</text>
+              <text x="245" y="155" fill="rgba(255,255,255,0.4)" font-size="10">West (19:00)</text>
+            </svg>
+            <div class="dome-stats">
+              <span>Zenith: <strong id="physics-zenith-stat">14.1°</strong></span>
+              <span>Azimuth: <strong id="physics-azimuth-stat">176.4°</strong></span>
+              <span>Elevation: <strong id="physics-elev-stat">75.9°</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 24-Hour Diurnal Curve -->
+        <div class="card glass-card">
+          <div class="card-header">
+            <h3><span class="step-num">2</span> 24-Hour Theoretical Diurnal Profile</h3>
+            <span class="badge-tag">Theoretical Clear-Sky Curve</span>
+          </div>
+
+          <div class="chart-container-large">
+            <svg id="diurnal-chart-svg" class="interactive-chart" viewBox="0 0 600 260"></svg>
+          </div>
+
+          <div class="formula-card">
+            <div class="formula-title">Mathematical Formula for Theoretical Radiation (P<sub>theo</sub>):</div>
+            <code>P<sub>theo</sub> = P<sub>0</sub> · A<sub>eff</sub> · [cos(ε)cos(χ) + sin(ε)sin(χ)cos(ξ - ζ)]</code>
+            <p class="formula-expl">Where ε is panel elevation, χ is solar zenith, ξ is solar azimuth, and ζ is panel azimuth angle.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: SKY VISION & CAMERA LABS            -->
+    <!-- ========================================== -->
+    <section class="tab-pane" id="gallery-tab">
+      <div class="section-intro">
+        <div class="badge-label">COMPUTER VISION & HARDWARE PIPELINE</div>
+        <h2>Stanford Sky Imaging Labs</h2>
+        <p>Explore real video footages, fish-eye camera captures, sun tracking projection models, and cloud segmentation algorithms collected at Stanford University.</p>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="card glass-card gallery-item">
+          <div class="gallery-media-wrapper">
+            <img src="/sample_images/sunny_day_demo_1.gif" alt="Sunny Day Time-Lapse" class="gallery-media">
+          </div>
+          <div class="gallery-info">
+            <h4>Sunny Day Clear Sky Stream</h4>
+            <p>1-minute time-lapse showing clear blue sky with constant camera aperture and white balance.</p>
+            <span class="tag-badge">Hikvision 6MP Fish-eye</span>
+          </div>
+        </div>
+
+        <div class="card glass-card gallery-item">
+          <div class="gallery-media-wrapper">
+            <img src="/sample_images/cloudy_day_demo_1.gif" alt="Cloudy Day Time-Lapse" class="gallery-media">
+          </div>
+          <div class="gallery-info">
+            <h4>Cloudy Day Intermittent Stream</h4>
+            <p>Rapid cloud velocity creating sudden solar irradiance ramps and steep power drops.</p>
+            <span class="tag-badge tag-warning">Cumulus Dynamics</span>
+          </div>
+        </div>
+
+        <div class="card glass-card gallery-item">
+          <div class="gallery-media-wrapper">
+            <img src="/sample_images/sun_identification_demo_1.gif" alt="Sun Tracking" class="gallery-media">
+          </div>
+          <div class="gallery-info">
+            <h4>Sun Position Identification</h4>
+            <p>Camera projection model determining exact pixel coordinate of the solar disk (red dot).</p>
+            <span class="tag-badge tag-cyan">Solar Projection</span>
+          </div>
+        </div>
+
+        <div class="card glass-card gallery-item">
+          <div class="gallery-media-wrapper">
+            <img src="/sample_images/cloud_identification_demo_1.gif" alt="Cloud Segmentation" class="gallery-media">
+          </div>
+          <div class="gallery-info">
+            <h4>Cloud Detection & Segmentation</h4>
+            <p>Modified NRBR (Normalized Red-to-Blue Ratio) with background subtraction detecting cloud pixels (green).</p>
+            <span class="tag-badge tag-success">NRBR Masking</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 5: MODEL ARCHITECTURE EXPLORER         -->
+    <!-- ========================================== -->
+    <section class="tab-pane" id="architecture-tab">
+      <div class="section-intro">
+        <div class="badge-label">DEEP LEARNING ARCHITECTURE</div>
+        <h2>SUNSET Model Specifications</h2>
+        <p>Stanford University Neural Network for Solar Electricity Trend — Convolutional Neural Network topology and tensor transformations.</p>
+      </div>
+
+      <div class="studio-grid">
+        <div class="card glass-card">
+          <h3>SUNSET Nowcast Topology (13,645,937 Parameters)</h3>
+          <div class="arch-layer-list">
+            <div class="arch-layer">
+              <span class="layer-badge in">Input Layer</span>
+              <div class="layer-details"><strong>Tensor Shape:</strong> [Batch, 64, 64, 3] (RGB Sky Image)</div>
+            </div>
+            <div class="arch-layer">
+              <span class="layer-badge conv">Conv2D Block 1</span>
+              <div class="layer-details">24 Filters, 3×3 Kernel, ReLU → BatchNorm → MaxPool(2×2, stride=2) → [32, 32, 24]</div>
+            </div>
+            <div class="arch-layer">
+              <span class="layer-badge conv">Conv2D Block 2</span>
+              <div class="layer-details">48 Filters, 3×3 Kernel, ReLU → BatchNorm → MaxPool(2×2, stride=2) → [16, 16, 48]</div>
+            </div>
+            <div class="arch-layer">
+              <span class="layer-badge fc">Flatten & Dense 1</span>
+              <div class="layer-details">Flatten to 12,288 units → Dense(1024, ReLU) → Dropout(0.40)</div>
+            </div>
+            <div class="arch-layer">
+              <span class="layer-badge fc">Dense 2 & Output</span>
+              <div class="layer-details">Dense(1024, ReLU) → Dropout(0.40) → Dense(1) Regression Output [kW]</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card glass-card">
+          <h3>SUNSET Forecast Multimodal Fusion</h3>
+          <div class="arch-layer-list">
+            <div class="arch-layer">
+              <span class="layer-badge in">Image Stream</span>
+              <div class="layer-details">16 frames stacked along depth: [Batch, 64, 64, 48]</div>
+            </div>
+            <div class="arch-layer">
+              <span class="layer-badge in">PV History Stream</span>
+              <div class="layer-details">Past 16 minutely PV power logs: [Batch, 16]</div>
+            </div>
+            <div class="arch-layer">
+              <span class="layer-badge conv">Visual Feature Extractor</span>
+              <div class="layer-details">2 Convolution blocks → Flattened to 12,288 spatial-temporal features</div>
+            </div>
+            <div class="arch-layer">
+              <span class="layer-badge fc">Multimodal Fusion</span>
+              <div class="layer-details">Concatenate visual features + PV history vector → [12,304 features]</div>
+            </div>
+            <div class="arch-layer">
+              <span class="layer-badge fc">Dense Predictor</span>
+              <div class="layer-details">Two 1024-unit Dense layers with Dropout → Predicts PV at t + 15 min</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Stanford Environmental Assessment and Optimization (EAO) Group • SKIPP'D Dataset & SUNSET Model</p>
+    <p class="cite">Nie, Y., Li, X., Scott, A., Sun, Y., Venugopal, V., & Brandt, A. (2023). <em>Solar Energy</em>, 255, 171-179.</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
